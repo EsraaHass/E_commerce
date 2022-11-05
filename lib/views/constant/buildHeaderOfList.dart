@@ -41,6 +41,9 @@ class BuildHeaderOfList extends StatelessWidget {
               .subtitle2
               ?.copyWith(color: Colors.grey[500]),
         ),
+        SizedBox(
+          height: 5,
+        ),
       ],
     );
   }

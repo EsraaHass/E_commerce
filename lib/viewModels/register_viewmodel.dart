@@ -1,7 +1,10 @@
+import 'package:ecommerce/models/my_user.dart';
 import 'package:ecommerce/services/auth.dart';
+import 'package:ecommerce/viewModels/database_viewmodel.dart';
+import 'package:ecommerce/views/constant/shared_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../base/base.dart';
+import '../views/pages/base/base.dart';
 
 abstract class RegisterNavigator extends BaseNavigator {
   void goToHome();
@@ -12,6 +15,7 @@ class RegisterViewModel extends BaseViewModel<RegisterNavigator> {
 
   String email;
   String password;
+  final database = DatabaseViewModel();
 
   RegisterViewModel({this.authBase, this.password = '', this.email = ''});
 
@@ -29,8 +33,19 @@ class RegisterViewModel extends BaseViewModel<RegisterNavigator> {
     try {
       var cerdintial =
           await authBase?.signUpWithEmailAndPassword(email, password);
+
+      MyUser myUser = MyUser(id: cerdintial!.uid, email: email);
+
+      var insertedUser = await database.setUserData(myUser);
+
       navigator?.hideLoading();
-      navigator?.goToHome();
+      if (insertedUser != null) {
+        SharedData.myUser = insertedUser;
+        navigator?.goToHome();
+      } else {
+        navigator
+            ?.showMessage('something went wrong with username or password');
+      }
     } on FirebaseAuthException catch (e) {
       navigator?.hideLoading();
       if (e.code == 'weak-password') {

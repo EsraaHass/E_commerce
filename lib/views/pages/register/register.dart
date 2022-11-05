@@ -1,5 +1,5 @@
 import 'package:ecommerce/services/auth.dart';
-import 'package:ecommerce/views/pages/register/register_viewmodel.dart';
+import 'package:ecommerce/viewModels/register_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

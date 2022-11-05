@@ -1,7 +1,6 @@
 import 'package:ecommerce/services/auth.dart';
 import 'package:ecommerce/viewModels/database_viewmodel.dart';
 import 'package:ecommerce/viewModels/login_viewModel.dart';
-import 'package:ecommerce/views/constant/set_user.dart';
 import 'package:ecommerce/views/pages/BottomNaveBar.dart';
 import 'package:ecommerce/views/pages/login/Login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,7 +19,7 @@ class LandingPage extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.active) {
             final user = snapshot.data;
             if (user == null) {
-              SharedData.id = user?.uid;
+             // SharedData.id = user?.uid;
               return ChangeNotifierProvider(
                   create: (_) => LoginViewModel(authBase: auth),
                   child: Login());

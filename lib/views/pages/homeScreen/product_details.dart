@@ -1,6 +1,9 @@
 import 'package:ecommerce/models/products.dart';
+import 'package:ecommerce/views/constant/favourite_components.dart';
 import 'package:ecommerce/views/constant/main_button.dart';
 import 'package:flutter/material.dart';
+
+import '../../constant/drop_down_menu.dart';
 
 class ProductDetails extends StatefulWidget {
   static const String routeName = 'ProductDetails';
@@ -45,32 +48,17 @@ class _ProductDetailsState extends State<ProductDetails> {
             Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 16.0,
-              ),
+                  vertical: 16),
               child: Column(
                 children: [
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: SizedBox(
-                      height: 45,
-                      width: 50,
-                      child: DecoratedBox(
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.circle, color: Colors.white),
-                        child: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              isFavourite = !isFavourite;
-                            });
-                          },
-                          icon: Icon(
-                            Icons.favorite,
-                            size: 30,
-                            color:
-                                isFavourite ? Colors.red : Colors.grey.shade400,
-                          ),
-                        ),
-                      ),
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                          child: SizedBox(height: 60, child: DropDowmNenu())),
+                      const Spacer(),
+                      FavouriteIcon(),
+                    ],
                   ),
                   const SizedBox(
                     height: 13,
@@ -106,7 +94,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                     ' and inexpensive fabric that is quite ',
                     textDirection: TextDirection.ltr,
                   ),
-                  SizedBox(height: size.height * 0.15),
+                  SizedBox(height: size.height * 0.11),
                   MainButton(
                     text: 'Add To Cart',
                     voidCallback: () {},

@@ -81,19 +81,25 @@ class _HomeScreenState extends State<HomeScreen> {
                                     child: Text('No Data Available !'),
                                   );
                                 }
-                                return ListView.builder(
+                                return ListView.separated(
                                   scrollDirection: Axis.horizontal,
+                                  separatorBuilder: (_, index) => SizedBox(
+                                    width: 12,
+                                  ),
                                   itemBuilder: (context, index) {
-                                    return ListItemHome(data[index]);
+                                    return ListItemHome(
+                                        product: data[index], isSale: true);
                                   },
                                   itemCount: data.length,
-                                  // children: getProduct.map((product) => ListItemHome(product)).toList(),
                                 );
                               }
                               return const Center(
                                 child: CircularProgressIndicator(),
                               );
                             }),
+                      ),
+                      SizedBox(
+                        height: 27,
                       ),
                       BuildHeaderOfList('New', 'Super New Products!', () {}),
                       SizedBox(
@@ -110,13 +116,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                     child: Text('No Data Available !'),
                                   );
                                 }
-                                return ListView.builder(
+                                return ListView.separated(
                                   scrollDirection: Axis.horizontal,
+                                  separatorBuilder: (_, index) => SizedBox(
+                                    width: 12,
+                                  ),
                                   itemBuilder: (context, index) {
-                                    return ListItemHome(data[index]);
+                                    return ListItemHome(
+                                        product: data[index], isSale: false);
                                   },
                                   itemCount: data.length,
-                                  // children: getProduct.map((product) => ListItemHome(product)).toList(),
                                 );
                               }
                               return const Center(
