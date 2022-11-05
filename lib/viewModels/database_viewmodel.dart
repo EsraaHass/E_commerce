@@ -1,4 +1,6 @@
+import 'package:ecommerce/models/my_user.dart';
 import 'package:ecommerce/services/firestore_services.dart';
+import 'package:ecommerce/views/constant/api_path.dart';
 import 'package:flutter/foundation.dart';
 
 import '../models/products.dart';
@@ -20,8 +22,15 @@ class DatabaseViewModel extends ChangeNotifier {
   Stream<List<Product>> newproductsStream() {
     final firestoreServices = services.collectionStream(
         path: 'products/',
-        builder: (data, documentId) => Product.fromFirestore(data, documentId));
+        builder: (data, documentId) => Product.fromFirestore(data, documentId),
+        queryBuilder: (query) => query.where('discount', isEqualTo: 0));
+
     return firestoreServices;
+  }
+
+  Future<MyUser?> setUserData(MyUser myUser) async {
+    await services.setData(
+        path: ApiPath.user(myUser.id!), data: myUser.toFireStore());
   }
 
   Future<void> setProducts(Product product) async => await services.setData(

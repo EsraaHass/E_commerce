@@ -10,8 +10,11 @@ class MyTheme {
           backgroundColor: Colors.white,
           iconTheme: IconThemeData(color: Colors.black)),
       textTheme: const TextTheme(
-          titleMedium: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 25, color: Colors.black)),
+        titleMedium: TextStyle(
+            fontWeight: FontWeight.bold, fontSize: 25, color: Colors.black),
+        bodyMedium: TextStyle(
+            fontWeight: FontWeight.w500, fontSize: 15, color: Colors.black),
+      ),
       inputDecorationTheme: InputDecorationTheme(
         hintStyle: const TextStyle(
           color: Colors.grey,
