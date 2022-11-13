@@ -4,8 +4,7 @@ class AddToCart {
   String title;
   String imageUrl;
   String color;
-
-  //final String size;
+ //final String size;
   final int price;
   final int discount;
   final int quentity;
@@ -16,7 +15,7 @@ class AddToCart {
       required this.title,
       required this.imageUrl,
       this.color = 'Black',
-      // required this.size,
+        // required this.size,
       required this.price,
       this.discount = 0,
       this.quentity = 1});
@@ -35,9 +34,10 @@ class AddToCart {
     };
   }
 
-  factory AddToCart.fromFirestore(Map<String, dynamic> data) {
+  factory AddToCart.fromFirestore(
+      Map<String, dynamic> data, String documentId) {
     return AddToCart(
-      id: data['id'] as String,
+      id: documentId,
       productid: data['productid'] as String,
       title: data['title'] as String,
       quentity: data['quentity'] as int,

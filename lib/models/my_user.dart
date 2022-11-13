@@ -1,14 +1,14 @@
 class MyUser {
   static const routeName = 'myUsers';
 
-  String? id;
-  String? email;
+  String id;
+  String email;
 
-  MyUser({this.id, this.email});
+  MyUser({required this.id, required this.email});
 
-  MyUser.fromFireStore(Map<String, dynamic> data)
+  MyUser.fromFireStore(Map<String, dynamic> data, String documentId)
       : this(
-          id: data['id'],
+          id: documentId,
           email: data['email'],
         );
 

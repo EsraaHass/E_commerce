@@ -1,12 +1,12 @@
 import 'package:ecommerce/models/add_to_cart_model.dart';
 import 'package:ecommerce/models/products.dart';
+import 'package:ecommerce/views/constant/constant.dart';
 import 'package:ecommerce/views/constant/favourite_components.dart';
 import 'package:ecommerce/views/constant/main_button.dart';
-import 'package:ecommerce/views/constant/shared_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../viewModels/database_viewmodel.dart';
+import '../../../controllers/firestore_controllers.dart';
 import '../../constant/drop_down_menu.dart';
 
 class ProductDetails extends StatefulWidget {
@@ -18,21 +18,18 @@ class ProductDetails extends StatefulWidget {
 
 class _ProductDetailsState extends State<ProductDetails> {
   bool isFavourite = false;
-  late DatabaseViewModel viewModel;
 
-  @override
-  void initState() {
-    super.initState();
-    viewModel = DatabaseViewModel();
-  }
+  // late String dropdown ;
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    var product = ModalRoute.of(context)?.settings.arguments as Product;
-
-    return ChangeNotifierProvider(
-      create: (_) => viewModel,
+    var args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+    Product product = args['product'];
+    Database database = args['database'];
+    return Provider<Database>.value(
+      value: database,
       child: Scaffold(
         backgroundColor: Color.fromARGB(255, 254, 252, 252),
         appBar: AppBar(
@@ -111,19 +108,15 @@ class _ProductDetailsState extends State<ProductDetails> {
                       text: 'Add To Cart',
                       // ToDo: must refactor this part.
                       voidCallback: () async {
-                        AddToCart addToCart = AddToCart(
-                          id: SharedData.myUser?.id ?? '',
+                        AddToCart cart = AddToCart(
+                          id: idFromLocalData(),
                           title: product.title,
                           productid: product.id,
                           imageUrl: product.imageUrl,
-                          // size: '',
+                          // size: dropdown,
                           price: product.price,
                         );
-                        await viewModel.addToCart(addToCart);
-
-                        // catch(e){
-                        //   print('error fff = ${e.toString()}');
-                        // }
+                        await database.addToCard(cart);
                       },
                     ),
                     const SizedBox(
@@ -138,16 +131,4 @@ class _ProductDetailsState extends State<ProductDetails> {
       ),
     );
   }
-
-// Future<void> addToCart() async {
-//
-//   AddToCart addToCart = AddToCart(
-//       id: SharedData.myUser?.id?? '',
-//       title: product,
-//       imageUrl: imageUrl,
-//       size: size,
-//       price: price
-//   );
-//  await viewModel.addToCart(addToCart);
-// }
 }

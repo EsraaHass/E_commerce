@@ -1,7 +1,9 @@
 import 'package:ecommerce/views/pages/homeScreen/product_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:provider/provider.dart';
 
+import '../../../controllers/firestore_controllers.dart';
 import '../../../models/products.dart';
 import '../../constant/favourite_components.dart';
 
@@ -14,6 +16,7 @@ class ListItemHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    final database = Provider.of<Database>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -26,7 +29,7 @@ class ListItemHome extends StatelessWidget {
                   onTap: () {
                     Navigator.of(context, rootNavigator: true).pushNamed(
                         ProductDetails.routeName,
-                        arguments: product);
+                        arguments: {'product': product, 'database': database});
                   },
                   child: Image.network(
                     product.imageUrl,
