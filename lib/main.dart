@@ -1,7 +1,6 @@
 import 'package:ecommerce/services/auth.dart';
 import 'package:ecommerce/views/constant/theme.dart';
 import 'package:ecommerce/views/pages/BottomNaveBar.dart';
-import 'package:ecommerce/views/pages/homeScreen/landing_page.dart';
 import 'package:ecommerce/views/pages/homeScreen/product_details.dart';
 import 'package:ecommerce/views/pages/login/Login.dart';
 import 'package:ecommerce/views/pages/register/register.dart';
@@ -26,12 +25,12 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
           theme: MyTheme.lightTheme,
           debugShowCheckedModeBanner: false,
-          initialRoute: LandingPage.routeName,
+          initialRoute: Login.routeName,
           routes: {
             Login.routeName: (_) => Login(),
             Register.routeName: (_) => Register(),
             BottomNaveBar.routeName: (_) => BottomNaveBar(),
-            LandingPage.routeName: (_) => LandingPage(),
+            //LandingPage.routeName: (_) => LandingPage(),
             ProductDetails.routeName: (_) => ProductDetails(),
           }),
     );

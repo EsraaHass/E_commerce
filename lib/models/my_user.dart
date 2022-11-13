@@ -6,9 +6,9 @@ class MyUser {
 
   MyUser({this.id, this.email});
 
-  MyUser.fromFireStore(Map<String, dynamic> data, String documentId)
+  MyUser.fromFireStore(Map<String, dynamic> data)
       : this(
-          id: documentId,
+          id: data['id'],
           email: data['email'],
         );
 
