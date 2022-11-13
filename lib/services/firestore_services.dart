@@ -1,4 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecommerce/models/add_to_cart_model.dart';
+
+import '../models/my_user.dart';
 
 class FirestoreServices {
   FirestoreServices._();
@@ -6,17 +9,63 @@ class FirestoreServices {
   static final instance = FirestoreServices._();
   final firestore = FirebaseFirestore.instance;
 
-  Future<void> setData(
-      {required String path, required Map<String, dynamic> data}) async {
-    DocumentReference docsReferance = firestore.doc(path);
-    await docsReferance.set(data);
+  CollectionReference<MyUser> getUserCollection() {
+    return FirebaseFirestore.instance
+        .collection(MyUser.routeName)
+        .withConverter<MyUser>(
+            fromFirestore: (snapshot, options) {
+              return MyUser.fromFireStore(snapshot.data()!);
+            },
+            toFirestore: (MyUser, SetOptions) => MyUser.toFireStore());
   }
+
+  CollectionReference<AddToCart> getCardCollection(String userId) {
+    return FirebaseFirestore.instance
+        .collection(MyUser.routeName)
+        .doc(userId)
+        .collection('addToCart')
+        .withConverter<AddToCart>(
+            fromFirestore: (snapshot, options) {
+              return AddToCart.fromFirestore(snapshot.data()!);
+            },
+            toFirestore: (AddToCart, SetOptions) => AddToCart.toFirestore());
+  }
+
+  Future<void> cart(AddToCart addToCart) {
+    var collectionRefe = getCardCollection(addToCart.id).doc();
+    addToCart.id = collectionRefe.id;
+
+    return collectionRefe.set(addToCart);
+  }
+
+  /* Stream<List<AddToCart>> retriveCard (String userId){
+
+   return getCardCollection(userId).snapshots().map((event) {
+     return event.docs.map((e) => e.data()).toList();
+   });
+  }
+
+
+  */
+
+  // Future<void> setData(
+  //     {required String path, required Map<String, dynamic> data}) async {
+  //   DocumentReference docsReferance = firestore.doc(path);
+  //   await docsReferance.set(data);
+  // }
 
   Future<void> deleteData({
     required String path,
   }) async {
     DocumentReference docsReferance = firestore.doc(path);
     await docsReferance.delete();
+  }
+
+  Future<MyUser?> setUserData(MyUser myUser) async {
+    var collection = getUserCollection();
+    var documentRef = collection.doc(myUser.id);
+    await documentRef.set(myUser);
+    return myUser;
   }
 
   // documentStream => i will get stream of collection inside of document
