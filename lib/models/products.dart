@@ -1,4 +1,3 @@
-import '../views/constant/images_url.dart';
 
 class Product {
   final String id;
@@ -43,61 +42,3 @@ class Product {
   }
 }
 
-List<Product> getProduct = [
-  Product(
-      id: 't-shirt',
-      title: 'T-shirt',
-      category: 'Clothes',
-      imageUrl: ImagesUrl.clothImage,
-      price: 300,
-      discount: 20),
-  Product(
-      id: 't-shirt',
-      title: 'T-shirt',
-      category: 'Clothes',
-      imageUrl: ImagesUrl.clothImage,
-      price: 300,
-      discount: 20),
-  Product(
-      id: 't-shirt',
-      title: 'T-shirt',
-      category: 'Clothes',
-      imageUrl: ImagesUrl.clothImage,
-      price: 300,
-      discount: 20),
-  Product(
-      id: 't-shirt',
-      title: 'T-shirt',
-      category: 'Clothes',
-      imageUrl: ImagesUrl.clothImage,
-      price: 300,
-      discount: 20),
-  Product(
-      id: 't-shirt',
-      title: 'T-shirt',
-      category: 'Clothes',
-      imageUrl: ImagesUrl.clothImage,
-      price: 300,
-      discount: 20),
-  Product(
-      id: 't-shirt',
-      title: 'T-shirt',
-      category: 'Clothes',
-      imageUrl: ImagesUrl.clothImage,
-      price: 300,
-      discount: 20),
-  Product(
-      id: 't-shirt',
-      title: 'T-shirt',
-      category: 'Clothes',
-      imageUrl: ImagesUrl.clothImage,
-      price: 300,
-      discount: 20),
-  Product(
-      id: 't-shirt',
-      title: 'T-shirt',
-      category: 'Clothes',
-      imageUrl: ImagesUrl.clothImage,
-      price: 300,
-      discount: 20),
-];

@@ -3,34 +3,39 @@ import 'package:firebase_auth/firebase_auth.dart';
 abstract class AuthBase {
   Future<User?> loginWithEmailAndPassword(String email, String password);
 
- // Future<User?> signUpWithEmailAndPassword(String email, String password);
+  Future<User?> signUpWithEmailAndPassword(String email, String password);
 
-// MyUser? get currentUser;
+  User? get currentUser;
 
-// Stream<MyUser?> authStatesChanges();
+  Stream<User?> authStatesChanges();
+
+  Future<void> logOut();
 }
 
 class Auth implements AuthBase {
   final auth = FirebaseAuth.instance;
 
-  // @override
-  // Stream<MyUser?>  authStatesChanges() => auth.authStateChanges();
-
-  // @override
-  // MyUser? get currentUser => auth.currentUser;
-
   @override
   Future<User?> loginWithEmailAndPassword(String email, String password) async {
-    UserCredential credintial =
+    UserCredential userCredential =
         await auth.signInWithEmailAndPassword(email: email, password: password);
-    return credintial.user;
+    return userCredential.user;
   }
 
-// @override
-// Future<User?> signUpWithEmailAndPassword(
-//     String email, String password) async {
-//   UserCredential credintial = await auth.createUserWithEmailAndPassword(
-//       email: email, password: password);
-//   return credintial.user;
-// }
+  @override
+  Stream<User?> authStatesChanges() => auth.authStateChanges();
+
+  @override
+  User? get currentUser => auth.currentUser;
+
+  @override
+  Future<User?> signUpWithEmailAndPassword(
+      String email, String password) async {
+    UserCredential userCredential = await auth.createUserWithEmailAndPassword(
+        email: email, password: password);
+    return userCredential.user;
+  }
+
+  @override
+  Future<void> logOut() async => await auth.signOut();
 }

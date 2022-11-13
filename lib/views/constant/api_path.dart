@@ -4,5 +4,7 @@ class ApiPath {
   static String user(String uid) => 'users/$uid';
 
   static String addToCart(String uid, String addtoCartId) =>
-      'users/$uid/addToCart/';
+      'users/$uid/cart/$addtoCartId';
+
+  static String myProductCart(String uid) => 'users/$uid/cart/';
 }

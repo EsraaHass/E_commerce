@@ -1,11 +1,8 @@
-import 'package:ecommerce/services/auth.dart';
-import 'package:ecommerce/viewModels/register_viewmodel.dart';
+import 'package:ecommerce/controllers/register_controllers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../constant/main_button.dart';
-import '../BottomNaveBar.dart';
-import '../base/base.dart';
 import '../login/Login.dart';
 
 class Register extends StatefulWidget {
@@ -15,8 +12,7 @@ class Register extends StatefulWidget {
   State<Register> createState() => _RegisterState();
 }
 
-class _RegisterState extends BaseState<Register, RegisterViewModel>
-    implements RegisterNavigator {
+class _RegisterState extends State<Register> {
   var formKey = GlobalKey<FormState>();
   var namecontroller = TextEditingController();
   var emailcontroller = TextEditingController();
@@ -27,23 +23,17 @@ class _RegisterState extends BaseState<Register, RegisterViewModel>
   bool password = false;
 
   @override
-  RegisterViewModel initViewModel() {
-    return RegisterViewModel(authBase: Auth());
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => viewModel,
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 100),
-            child: Form(
-              key: formKey,
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height,
+    return Consumer<RegisterControllers>(
+      builder: (_, registerController, __) {
+        return Scaffold(
+          resizeToAvoidBottomInset: false,
+          body: SafeArea(
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 30, vertical: 100),
+              child: Form(
+                key: formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -56,100 +46,96 @@ class _RegisterState extends BaseState<Register, RegisterViewModel>
                     ),
                     Container(
                       height: MediaQuery.of(context).size.height * 0.3,
-                      child: Expanded(
-                        child: ListView(
-                          children: [
-                            Column(
-                              children: [
-                                TextFormField(
-                                  focusNode: nameFocusNode,
-                                  keyboardType: TextInputType.name,
-                                  onEditingComplete: () =>
-                                      FocusScope.of(context)
-                                          .requestFocus(emailFocusNode),
-                                  textInputAction: TextInputAction.next,
-                                  controller: namecontroller,
-                                  validator: (text) {
-                                    if (text == null || text.trim().isEmpty) {
-                                      return 'please enter name';
-                                    }
-                                    return null;
-                                  },
-                                  style: const TextStyle(
-                                      color: Colors.black, fontSize: 15),
-                                  decoration: InputDecoration(
-                                    fillColor: Colors.white,
-                                    filled: true,
-                                    hintText: 'Enter Your Name',
+                      child: ListView(
+                        children: [
+                          Column(
+                            children: [
+                              TextFormField(
+                                focusNode: nameFocusNode,
+                                keyboardType: TextInputType.name,
+                                onEditingComplete: () => FocusScope.of(context)
+                                    .requestFocus(emailFocusNode),
+                                textInputAction: TextInputAction.next,
+                                controller: namecontroller,
+                                validator: (text) {
+                                  if (text == null || text.trim().isEmpty) {
+                                    return 'please enter name';
+                                  }
+                                  return null;
+                                },
+                                style: const TextStyle(
+                                    color: Colors.black, fontSize: 15),
+                                decoration: const InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  hintText: 'Enter Your Name',
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              TextFormField(
+                                focusNode: emailFocusNode,
+                                keyboardType: TextInputType.emailAddress,
+                                onChanged: registerController.updateEmail,
+                                onEditingComplete: () => FocusScope.of(context)
+                                    .requestFocus(passwordFocusNode),
+                                textInputAction: TextInputAction.next,
+                                controller: emailcontroller,
+                                validator: (text) {
+                                  if (text == null || text.trim().isEmpty) {
+                                    return 'please enter email';
+                                  }
+                                  return null;
+                                },
+                                style: const TextStyle(
+                                    color: Colors.black, fontSize: 15),
+                                decoration: const InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  hintText: 'Enter Your Email',
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              TextFormField(
+                                focusNode: passwordFocusNode,
+                                keyboardType: TextInputType.visiblePassword,
+                                textInputAction: TextInputAction.done,
+                                controller: passwordcontroller,
+                                obscureText: password,
+                                onChanged: registerController.updatePassword,
+                                validator: (text) {
+                                  if (text == null || text.trim().isEmpty) {
+                                    return 'please enter password';
+                                  }
+                                  if (text.length < 6) {
+                                    return 'password should be at least 6 chars';
+                                  }
+                                  return null;
+                                },
+                                style: const TextStyle(
+                                    color: Colors.black, fontSize: 15),
+                                decoration: InputDecoration(
+                                  suffixIcon: InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        password = !password;
+                                      });
+                                    },
+                                    child: password
+                                        ? const Icon(Icons.visibility)
+                                        : const Icon(Icons.visibility_off),
                                   ),
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  hintText: 'Enter Your Password',
                                 ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                TextFormField(
-                                  focusNode: emailFocusNode,
-                                  keyboardType: TextInputType.emailAddress,
-                                  onChanged: viewModel.updateEmail,
-                                  onEditingComplete: () =>
-                                      FocusScope.of(context)
-                                          .requestFocus(passwordFocusNode),
-                                  textInputAction: TextInputAction.next,
-                                  controller: emailcontroller,
-                                  validator: (text) {
-                                    if (text == null || text.trim().isEmpty) {
-                                      return 'please enter email';
-                                    }
-                                    return null;
-                                  },
-                                  style: const TextStyle(
-                                      color: Colors.black, fontSize: 15),
-                                  decoration: InputDecoration(
-                                    fillColor: Colors.white,
-                                    filled: true,
-                                    hintText: 'Enter Your Email',
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                TextFormField(
-                                  focusNode: passwordFocusNode,
-                                  keyboardType: TextInputType.visiblePassword,
-                                  textInputAction: TextInputAction.done,
-                                  controller: passwordcontroller,
-                                  obscureText: password,
-                                  onChanged: viewModel.updatePassword,
-                                  validator: (text) {
-                                    if (text == null || text.trim().isEmpty) {
-                                      return 'please enter password';
-                                    }
-                                    if (text.length < 6) {
-                                      return 'password should be at least 6 chars';
-                                    }
-                                    return null;
-                                  },
-                                  style: const TextStyle(
-                                      color: Colors.black, fontSize: 15),
-                                  decoration: InputDecoration(
-                                    suffixIcon: InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          password = !password;
-                                        });
-                                      },
-                                      child: password
-                                          ? Icon(Icons.visibility)
-                                          : Icon(Icons.visibility_off),
-                                    ),
-                                    fillColor: Colors.white,
-                                    filled: true,
-                                    hintText: 'Enter Your Password',
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
                     const SizedBox(
@@ -167,7 +153,7 @@ class _RegisterState extends BaseState<Register, RegisterViewModel>
                     MainButton(
                         text: 'Register',
                         voidCallback: () {
-                          register();
+                          register(registerController);
                         }),
                     const SizedBox(
                       height: 20,
@@ -192,7 +178,7 @@ class _RegisterState extends BaseState<Register, RegisterViewModel>
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Container(
+                        SizedBox(
                           width: 85,
                           height: 85,
                           child: Image.asset(
@@ -207,7 +193,7 @@ class _RegisterState extends BaseState<Register, RegisterViewModel>
                           onTap: () {
                             //facebooklogin() ;
                           },
-                          child: Container(
+                          child: SizedBox(
                             width: 85,
                             height: 85,
                             child: Image.asset(
@@ -223,20 +209,19 @@ class _RegisterState extends BaseState<Register, RegisterViewModel>
               ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
-  void register() {
+  Future<void> register(RegisterControllers controllers) async {
     if (formKey.currentState!.validate()) {
-      viewModel.createAccount();
+      await controllers.creatAccount();
     }
   }
 
-  @override
-  void goToHome() {
-    formKey.currentState!.reset();
-    Navigator.pushNamed(context, BottomNaveBar.routeName);
-  }
+// void goToHome() {
+//   formKey.currentState!.reset();
+//   Navigator.pushNamed(context, BottomNaveBar.routeName);
+// }
 }
